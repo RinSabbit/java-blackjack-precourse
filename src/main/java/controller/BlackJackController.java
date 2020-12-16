@@ -8,6 +8,8 @@ import exception.BlackJackException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import utils.ValidateUtils;
+import view.InputView;
 import view.OutputView;
 
 public class BlackJackController {
@@ -44,6 +46,19 @@ public class BlackJackController {
 
     private void dealWithPlayer(Player player) {
         OutputView.askGetMoreCard(player);
+        try {
+            wantCard(player);
+        } catch (BlackJackException exception){
+            OutputView.showErrorMessage(exception);
+            dealWithPlayer(player);
+        }
+    }
+
+    private void wantCard(Player player) {
+        if(ValidateUtils.isValidChoice(InputView.inputValue())){
+            player.addCard(giveCard());
+            dealWithPlayer(player);
+        }
     }
 
     private void dealerGetCard() {
@@ -68,6 +83,4 @@ public class BlackJackController {
         }
         throw new BlackJackException("더 뽑을 카드가 없습니다.");
     }
-
-
 }

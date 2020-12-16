@@ -31,7 +31,7 @@ public class MainController {
         OutputView.guideInputPlayers();
         String[] players = InputView.inputPlayers();
         try{
-            ValidateUtils.isValidNames(players);
+            ValidateUtils.hasValidNames(players);
         } catch (BlackJackException exception){
             OutputView.showErrorMessage(exception);
             inputCondition();
