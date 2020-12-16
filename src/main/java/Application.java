@@ -1,12 +1,11 @@
-import controller.GameController;
+import controller.MainController;
 import java.util.Scanner;
 
 public class Application {
 
     public static void main(String[] args) {
-        final Scanner scanner = new Scanner(System.in);
-        GameController gameController = new GameController(scanner);
-        gameController.play();
+        MainController mainController = new MainController();
+        mainController.play();
     }
 
 }

@@ -1,30 +1,25 @@
 package controller;
 
 import domain.user.Player;
-import domain.user.User;
 import exception.BlackJackException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Scanner;
 import utils.ValidateUtils;
 import view.InputView;
 import view.OutputView;
 
-public class GameController {
+public class MainController {
 
-    private final InputView inputView;
-    private final List<User> users;
+    private final List<Player> players;
 
-    public GameController(Scanner scanner) {
-        inputView = new InputView(scanner);
-        users = new ArrayList<>();
+    public MainController() {
+        players = new ArrayList<>();
     }
 
     public void play() {
         inputCondition();
         blackJack();
-        gameOver();
     }
 
     private void inputCondition() {
@@ -34,7 +29,7 @@ public class GameController {
 
     private String[] inputPlayers() {
         OutputView.guideInputPlayers();
-        String[] players = inputView.inputPlayers();
+        String[] players = InputView.inputPlayers();
         try{
             ValidateUtils.isValidNames(players);
         } catch (BlackJackException exception){
@@ -47,8 +42,8 @@ public class GameController {
     private void bettingMoney(String player){
         OutputView.guideBettingMoney(player);
         try{
-            int money = ValidateUtils.isValidMoney(inputView.inputValue());
-            users.add(new Player(player,money));
+            int money = ValidateUtils.isValidMoney(InputView.inputValue());
+            players.add(new Player(player,money));
         } catch (BlackJackException exception){
             OutputView.showErrorMessage(exception);
             bettingMoney(player);
@@ -56,13 +51,7 @@ public class GameController {
     }
 
     private void blackJack() {
-        OutputView.addDealerCard();
-        //OutputView.askGetMoreCard();
-        OutputView.showWhichCardUserHas();
-    }
-
-    private void gameOver() {
-        OutputView.showResult();
-
+        BlackJackController blackJackController = new BlackJackController(players);
+        blackJackController.startGame();
     }
 }

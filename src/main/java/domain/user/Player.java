@@ -22,6 +22,13 @@ public class Player extends User{
         cards.add(card);
     }
 
-    // TODO 추가 기능 구현
+    public String getName(){
+        return name;
+    }
 
+    @Override
+    public void showCards() {
+        System.out.print(name+"카드 :");
+        super.showCards();
+    }
 }

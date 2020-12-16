@@ -37,4 +37,8 @@ public class ValidateUtils {
         }
         throw new BlackJackException("이름은 1자 이상이어야 합니다.");
     }
+
+    // y or n 확인하는 함수
+
+
 }

@@ -1,6 +1,11 @@
 package view;
 
+import domain.card.Card;
+import domain.user.Player;
+import domain.user.User;
 import exception.BlackJackException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class OutputView {
 
@@ -27,8 +32,8 @@ public class OutputView {
         System.out.println(DEALER_ADD_CARD_MESSAGE);
     }
 
-    public static void askGetMoreCard(String player){
-        System.out.println(player + GET_MORE_CARD_MESSAGE);
+    public static void askGetMoreCard(Player player){
+        System.out.println(player.getName() + GET_MORE_CARD_MESSAGE);
     }
 
     public static void guideInputPlayers(){
@@ -37,6 +42,11 @@ public class OutputView {
 
     public static void guideBettingMoney(String player){
         System.out.println(player + INPUT_PLAYERS_BETTING_MONEY_MESSAGE);
+    }
+
+    public static void showCards(List<Card> cards){
+        StringBuilder stringBuilder = new StringBuilder();
+
     }
 
 

@@ -5,17 +5,13 @@ import java.util.Scanner;
 public class InputView {
 
     private static final String DELIMITER = ",";
-    private final Scanner scanner;
+    private static final Scanner scanner = new Scanner(System.in);
 
-    public InputView(Scanner scanner) {
-        this.scanner = scanner;
-    }
-
-    public String inputValue(){
+    public static String inputValue(){
         return scanner.nextLine();
     }
 
-    public String[] inputPlayers() {
+    public static String[] inputPlayers() {
         String players = scanner.nextLine();
         return players.split(DELIMITER);
     }
