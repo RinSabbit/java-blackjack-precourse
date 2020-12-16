@@ -4,6 +4,7 @@ import domain.card.Card;
 import domain.card.CardFactory;
 import domain.user.Dealer;
 import domain.user.Player;
+import domain.user.User;
 import exception.BlackJackException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -31,6 +32,7 @@ public class BlackJackController {
         deal();
         dealerGetCard();
         showCardResult();
+        showFinalProfit();
     }
 
     private void handOutCard() {
@@ -38,6 +40,11 @@ public class BlackJackController {
         dealer.addCard(giveCard());
         players.forEach(player -> player.addCard(giveCard()));
         players.forEach(player -> player.addCard(giveCard()));
+        blackJackWhileHandOuting();
+    }
+
+    private void blackJackWhileHandOuting(){
+
     }
 
     private void deal() {
@@ -55,7 +62,7 @@ public class BlackJackController {
     }
 
     private void wantCard(Player player) {
-        if(ValidateUtils.isValidChoice(InputView.inputValue())){
+        if(ValidateUtils.isValidChoice(InputView.inputValue()) && !player.isOverTwentyOne()){
             player.addCard(giveCard());
             dealWithPlayer(player);
         }
@@ -69,6 +76,16 @@ public class BlackJackController {
     }
 
     private void showCardResult() {
+    }
+
+    private void showFinalProfit() {
+        OutputView.showResult();
+        if(dealer.isOverTwentyOne()){
+            double sumProfit = players.stream().mapToDouble(Player::getBettingMoney).sum();
+            System.out.println("딜러: -" + sumProfit);
+           players.forEach(OutputView::showProfit);
+        }
+
     }
 
 

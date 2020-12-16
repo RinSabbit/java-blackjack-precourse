@@ -31,4 +31,13 @@ public class Player extends User{
         System.out.print(name+"카드 :");
         super.showCards();
     }
+
+    public double getBettingMoney(){
+        return bettingMoney;
+    }
+
+    @Override
+    public boolean isBlackJack() {
+        return super.isBlackJack();
+    }
 }

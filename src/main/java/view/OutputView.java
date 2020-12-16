@@ -49,5 +49,9 @@ public class OutputView {
 
     }
 
+    public static void showProfit(Player player){
+        System.out.println(player.getName() +": " +player.getBettingMoney());
+    }
+
 
 }

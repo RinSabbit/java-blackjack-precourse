@@ -17,9 +17,15 @@ public class User {
         OutputView.showCards(cards);
     }
 
-
     public int calculateScore(){
         return cards.stream().map(Card::getScore).mapToInt(card -> card).sum();
     }
 
+    public boolean isBlackJack(){
+        return calculateScore() == 21;
+    }
+
+    public boolean isOverTwentyOne(){
+        return calculateScore() > 21;
+    }
 }
