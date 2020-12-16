@@ -11,7 +11,6 @@ import view.InputView;
 import view.OutputView;
 
 public class MainController {
-
     private final List<User> players;
 
     public MainController() {

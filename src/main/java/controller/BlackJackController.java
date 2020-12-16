@@ -15,6 +15,7 @@ import view.OutputView;
 
 public class BlackJackController {
 
+    public static final String NO_MORE_CARD_EXCEPTION = "더 뽑을 카드가 없습니다.";
     private final List<User> players;
     private final Dealer dealer;
     private final ArrayList<Card> cards;
@@ -93,10 +94,10 @@ public class BlackJackController {
         if (!cards.isEmpty()) {
             Card card = cards.stream()
                 .findFirst()
-                .orElseThrow(() -> new BlackJackException("더 뽑을 카드가 없습니다."));
+                .orElseThrow(() -> new BlackJackException(NO_MORE_CARD_EXCEPTION));
             cards.remove(0);
             return card;
         }
-        throw new BlackJackException("더 뽑을 카드가 없습니다.");
+        throw new BlackJackException(NO_MORE_CARD_EXCEPTION);
     }
 }

@@ -9,9 +9,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class OutputView {
-
-    public static final String CARDS_DELIMITER = ", ";
-    public static final String RESULT_DELIMITER = ": ";
+    private static final String CARDS_DELIMITER = ", ";
+    private static final String RESULT_DELIMITER = ": ";
     private static final String INPUT_PLAYERS_NAME_MESSAGE = "게임에 참여할 사람의 이름을 입력하세요.(쉼표 기준으로 분리)";
     private static final String INPUT_PLAYERS_BETTING_MONEY_MESSAGE = "의 배팅 금액은?";
     private static final String GET_MORE_CARD_MESSAGE = "는(은) 한장의 카드를 더 받겠습니까?(예는 y, 아니오는 n)";
@@ -49,6 +48,6 @@ public class OutputView {
 
     public static void showProfits(Map<User, Double> profits) {
         profits.forEach(
-            (user, profit) -> System.out.println(user.getName() + ": " + Math.round(profit)));
+            (user, profit) -> System.out.println(user.getName() + RESULT_DELIMITER + Math.round(profit)));
     }
 }

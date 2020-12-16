@@ -10,15 +10,16 @@ import java.util.Map;
 import view.OutputView;
 
 public class ProfitCalculator {
-
     private static final double LOSE_RADIO = -1;
     private static final double WINNING_RATIO = 1;
     private static final double DRAW_RATIO = 0;
     private static final double HANDOUT_BLACKJACK_RATIO = 0.5;
+
     private final Dealer dealer;
     private final List<User> users;
     private final Map<User, Double> profit;
     private final Map<User, Status> userStatus;
+
     private double dealerProfit;
 
     public ProfitCalculator(Dealer dealer, List<User> users) {

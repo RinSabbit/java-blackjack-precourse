@@ -6,11 +6,11 @@ import java.util.List;
 import view.OutputView;
 
 public class User {
-
-
     public static final int BLACKJACK_SCORE = 21;
-    public static final String RESULT_MESSAGE = " - 결과: ";
     public static final int GAP_BETWEEN_ACE_VALUE = 10;
+    public static final String RESULT_MESSAGE = " - 결과: ";
+    public static final String DEALER = "딜러";
+
     private final List<Card> cards = new ArrayList<>();
 
     public void addCard(Card card) {
@@ -57,7 +57,7 @@ public class User {
     }
 
     public String getName() {
-        return "딜러";
+        return DEALER;
     }
 
     public int getCardAmount() {
