@@ -4,7 +4,6 @@ import domain.card.Card;
 import domain.card.CardFactory;
 import domain.user.Dealer;
 import domain.user.Player;
-import domain.user.User;
 import exception.BlackJackException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,7 +14,7 @@ import view.OutputView;
 
 public class BlackJackController {
 
-    List<Player> players;
+    private final List<Player> players;
     private final Dealer dealer;
     private final ArrayList<Card> cards;
 
@@ -29,9 +28,11 @@ public class BlackJackController {
 
     public void startGame() {
         handOutCard();
-        deal();
-        dealerGetCard();
-        showCardResult();
+        if (!blackJackWhileHandOuting()) {
+            deal();
+            supplyDealerCard();
+        }
+        showCardsWithScore();
         showFinalProfit();
     }
 
@@ -40,11 +41,11 @@ public class BlackJackController {
         dealer.addCard(giveCard());
         players.forEach(player -> player.addCard(giveCard()));
         players.forEach(player -> player.addCard(giveCard()));
-        blackJackWhileHandOuting();
+        showCards();
     }
 
-    private void blackJackWhileHandOuting(){
-
+    private boolean blackJackWhileHandOuting() {
+        return players.stream().anyMatch(Player::isBlackJack);
     }
 
     private void deal() {
@@ -52,42 +53,77 @@ public class BlackJackController {
     }
 
     private void dealWithPlayer(Player player) {
-        OutputView.askGetMoreCard(player);
         try {
-            wantCard(player);
-        } catch (BlackJackException exception){
+            checkCardScore(player);
+        } catch (BlackJackException exception) {
             OutputView.showErrorMessage(exception);
             dealWithPlayer(player);
         }
     }
 
+    private void checkCardScore(Player player) {
+        if (!player.isOverTwentyOne()) {
+            OutputView.askGetMoreCard(player);
+            wantCard(player);
+        }
+    }
+
     private void wantCard(Player player) {
-        if(ValidateUtils.isValidChoice(InputView.inputValue()) && !player.isOverTwentyOne()){
+        if(ValidateUtils.isValidChoice(InputView.inputValue())){
             player.addCard(giveCard());
+            player.showCards();
             dealWithPlayer(player);
         }
     }
 
-    private void dealerGetCard() {
+    private void supplyDealerCard() {
         if (dealer.calculateScore() < 17) {
             OutputView.addDealerCard();
             dealer.addCard(giveCard());
         }
     }
 
-    private void showCardResult() {
+    private void showCards() {
+        dealer.showCards();
+        players.forEach(Player::showCards);
+    }
+
+    private void showCardsWithScore() {
+        dealer.showCardsWithScore();
+        players.forEach(Player::showCardsWithScore);
     }
 
     private void showFinalProfit() {
-        OutputView.showResult();
-        if(dealer.isOverTwentyOne()){
-            double sumProfit = players.stream().mapToDouble(Player::getBettingMoney).sum();
-            System.out.println("딜러: -" + sumProfit);
-           players.forEach(OutputView::showProfit);
-        }
+        double dealerProfit = 0;
+        int max = findMaxScore();
 
+        OutputView.showResult();
+        if (dealer.isOverTwentyOne()) {
+            dealerProfit = players.stream().mapToDouble(Player::getBettingMoney).sum();
+            System.out.println("딜러: -" + dealerProfit);
+            players.forEach(OutputView::showProfit);
+            return;
+        }
+        if (blackJackWhileHandOuting() && dealer.isBlackJack()) {
+            System.out.println("딜러: " + dealerProfit);
+            players.forEach(OutputView::showProfit);
+            return;
+        }
+        if (blackJackWhileHandOuting() && !dealer.isBlackJack()) { // 첫 드롭에서 플레이어 블랙잭
+
+            return;
+        }
+        if (dealer.isOn(max)) { // 딜러가 이김
+
+        }
     }
 
+    private int findMaxScore() {
+        List<Integer> scores = new ArrayList<>();
+        scores.add(dealer.calculateScore());
+        players.forEach(player -> scores.add(player.calculateScore()));
+        return Collections.max(scores);
+    }
 
     private Card giveCard() {
         if (!cards.isEmpty()) {

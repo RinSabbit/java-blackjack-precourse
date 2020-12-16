@@ -7,7 +7,7 @@ public class InputView {
     private static final String DELIMITER = ",";
     private static final Scanner scanner = new Scanner(System.in);
 
-    public static String inputValue(){
+    public static String inputValue() {
         return scanner.nextLine();
     }
 

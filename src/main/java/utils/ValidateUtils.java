@@ -38,11 +38,11 @@ public class ValidateUtils {
         throw new BlackJackException("이름은 1자 이상이어야 합니다.");
     }
 
-    public static boolean isValidChoice(String input){
-        if(input.toLowerCase().equals("y")){
+    public static boolean isValidChoice(String input) {
+        if (input.toLowerCase().equals("y")) {
             return true;
         }
-        if(input.toLowerCase().equals("n")){
+        if (input.toLowerCase().equals("n")) {
             return false;
         }
         throw new BlackJackException("옳지 않은 값을 입력했습니다");

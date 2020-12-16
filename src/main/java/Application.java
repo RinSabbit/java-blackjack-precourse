@@ -1,5 +1,4 @@
 import controller.MainController;
-import java.util.Scanner;
 
 public class Application {
 

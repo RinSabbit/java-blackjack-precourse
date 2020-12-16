@@ -30,21 +30,21 @@ public class MainController {
     private String[] inputPlayers() {
         OutputView.guideInputPlayers();
         String[] players = InputView.inputPlayers();
-        try{
+        try {
             ValidateUtils.hasValidNames(players);
-        } catch (BlackJackException exception){
+        } catch (BlackJackException exception) {
             OutputView.showErrorMessage(exception);
             inputCondition();
         }
         return players;
     }
 
-    private void bettingMoney(String player){
+    private void bettingMoney(String player) {
         OutputView.guideBettingMoney(player);
-        try{
+        try {
             int money = ValidateUtils.isValidMoney(InputView.inputValue());
-            players.add(new Player(player,money));
-        } catch (BlackJackException exception){
+            players.add(new Player(player, money));
+        } catch (BlackJackException exception) {
             OutputView.showErrorMessage(exception);
             bettingMoney(player);
         }

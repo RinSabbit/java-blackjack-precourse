@@ -1,14 +1,14 @@
 package domain.user;
 
 import domain.card.Card;
-
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * 게임 참여자를 의미하는 객체
  */
-public class Player extends User{
+public class Player extends User {
+
     private final String name;
     private final double bettingMoney;
     private final List<Card> cards = new ArrayList<>();
@@ -18,26 +18,28 @@ public class Player extends User{
         this.bettingMoney = bettingMoney;
     }
 
-    public void addCard(Card card) {
-        cards.add(card);
-    }
-
-    public String getName(){
+    public String getName() {
         return name;
     }
 
     @Override
     public void showCards() {
-        System.out.print(name+"카드 :");
+        System.out.print(name + "카드 :");
         super.showCards();
     }
 
-    public double getBettingMoney(){
+    public double getBettingMoney() {
         return bettingMoney;
     }
 
     @Override
     public boolean isBlackJack() {
         return super.isBlackJack();
+    }
+
+    @Override
+    public void showCardsWithScore() {
+        System.out.print(name + "카드 :");
+        super.showCardsWithScore();
     }
 }

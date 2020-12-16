@@ -2,7 +2,7 @@ package exception;
 
 public class BlackJackException extends IllegalArgumentException {
 
-    public BlackJackException(String message){
+    public BlackJackException(String message) {
         super("[ERROR] " + message);
     }
 

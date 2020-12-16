@@ -7,25 +7,36 @@ import view.OutputView;
 
 public class User {
 
+
     private final List<Card> cards = new ArrayList<>();
 
     public void addCard(Card card) {
         cards.add(card);
     }
 
-    public void showCards(){
+    public void showCards() {
         OutputView.showCards(cards);
+        System.out.print(System.lineSeparator());
     }
 
-    public int calculateScore(){
+    public void showCardsWithScore() {
+        OutputView.showCards(cards);
+        System.out.println(" - 결과: " + calculateScore());
+    }
+
+    public int calculateScore() {
         return cards.stream().map(Card::getScore).mapToInt(card -> card).sum();
     }
 
-    public boolean isBlackJack(){
+    public boolean isBlackJack() {
         return calculateScore() == 21;
     }
 
-    public boolean isOverTwentyOne(){
+    public boolean isOverTwentyOne() {
         return calculateScore() > 21;
+    }
+
+    public boolean isOn(int max) {
+        return calculateScore() == max;
     }
 }
