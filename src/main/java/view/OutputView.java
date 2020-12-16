@@ -2,6 +2,7 @@ package view;
 
 import domain.card.Card;
 import domain.user.Player;
+import domain.user.User;
 import exception.BlackJackException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,6 +14,8 @@ public class OutputView {
     private static final String GET_MORE_CARD_MESSAGE = "는(은) 한장의 카드를 더 받겠습니까?(예는 y, 아니오는 n)";
     private static final String DEALER_ADD_CARD_MESSAGE = "딜러는 16이하라 한장의 카드를 더 받았습니다.";
     private static final String GAME_RESULT_MONEY_MESSAGE = "## 최종 수익";
+    public static final String CARDS_DELIMITER = ", ";
+    public static final String RESULT_DELIMITER = ": ";
 
     public static void showErrorMessage(BlackJackException exception) {
         System.out.println(exception.getMessage());
@@ -26,8 +29,8 @@ public class OutputView {
         System.out.println(DEALER_ADD_CARD_MESSAGE);
     }
 
-    public static void askGetMoreCard(Player player) {
-        System.out.println(player.getName() + GET_MORE_CARD_MESSAGE);
+    public static void askGetMoreCard(User player) {
+        System.out.println(((Player) player).getName() + GET_MORE_CARD_MESSAGE);
     }
 
     public static void guideInputPlayers() {
@@ -39,13 +42,11 @@ public class OutputView {
     }
 
     public static void showCards(List<Card> cards) {
-        System.out.print(cards.stream().map(Card::getCard).collect(Collectors.joining(", ")));
-        System.lineSeparator();
+        System.out.print(cards.stream().map(Card::getCard).collect(Collectors.joining(
+            CARDS_DELIMITER)));
     }
 
     public static void showProfit(Player player) {
-        System.out.println(player.getName() + ": " + player.getBettingMoney());
+        System.out.println(player.getName() + RESULT_DELIMITER + player.getBettingMoney());
     }
-
-
 }

@@ -8,6 +8,9 @@ import view.OutputView;
 public class User {
 
 
+    public static final int BLACKJACK_SCORE = 21;
+    public static final String RESULT_MESSAGE = " - 결과: ";
+    public static final int GAP_BETWEEN_ACE_VALUE = 10;
     private final List<Card> cards = new ArrayList<>();
 
     public void addCard(Card card) {
@@ -21,22 +24,40 @@ public class User {
 
     public void showCardsWithScore() {
         OutputView.showCards(cards);
-        System.out.println(" - 결과: " + calculateScore());
+        System.out.println(RESULT_MESSAGE + getScore());
     }
 
-    public int calculateScore() {
-        return cards.stream().map(Card::getScore).mapToInt(card -> card).sum();
+    public int getScore() {
+        int total = cards.stream()
+            .map(Card::getScore)
+            .mapToInt(card -> card)
+            .sum();
+        return addIfAceExist(total);
+    }
+
+    private int addIfAceExist(int total) {
+        int aceCount = countAce();
+        while(total + GAP_BETWEEN_ACE_VALUE <= BLACKJACK_SCORE && aceCount == 0){
+            total += GAP_BETWEEN_ACE_VALUE;
+            aceCount--;
+        }
+        return total;
+    }
+
+    private int countAce(){
+        return Math.toIntExact(cards.stream().filter(Card::isAce).count());
     }
 
     public boolean isBlackJack() {
-        return calculateScore() == 21;
+        return getScore() == BLACKJACK_SCORE;
     }
 
     public boolean isOverTwentyOne() {
-        return calculateScore() > 21;
+        return getScore() >= BLACKJACK_SCORE;
     }
 
     public boolean isOn(int max) {
-        return calculateScore() == max;
+        return getScore() == max;
     }
+
 }

@@ -3,27 +3,28 @@ package controller;
 import domain.card.Card;
 import domain.card.CardFactory;
 import domain.user.Dealer;
-import domain.user.Player;
+import domain.user.User;
 import exception.BlackJackException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import utils.ProfitCalculator;
 import utils.ValidateUtils;
 import view.InputView;
 import view.OutputView;
 
 public class BlackJackController {
 
-    private final List<Player> players;
+    private final List<User> players;
     private final Dealer dealer;
     private final ArrayList<Card> cards;
 
-    public BlackJackController(List<Player> players) {
+    public BlackJackController(List<User> players) {
         this.players = players;
         dealer = new Dealer();
         List<Card> initialCards = CardFactory.create();
-        cards = new ArrayList<>();
-        cards.addAll(initialCards);
+        cards = new ArrayList<>(initialCards);
+        Collections.shuffle(cards);
     }
 
     public void startGame() {
@@ -33,7 +34,8 @@ public class BlackJackController {
             supplyDealerCard();
         }
         showCardsWithScore();
-        showFinalProfit();
+        ProfitCalculator profitCalculator = new ProfitCalculator(dealer, players);
+        profitCalculator.showProfit(blackJackWhileHandOuting());
     }
 
     private void handOutCard() {
@@ -45,14 +47,14 @@ public class BlackJackController {
     }
 
     private boolean blackJackWhileHandOuting() {
-        return players.stream().anyMatch(Player::isBlackJack);
+        return players.stream().anyMatch(User::isBlackJack);
     }
 
     private void deal() {
         players.forEach(this::dealWithPlayer);
     }
 
-    private void dealWithPlayer(Player player) {
+    private void dealWithPlayer(User player) {
         try {
             checkCardScore(player);
         } catch (BlackJackException exception) {
@@ -61,15 +63,15 @@ public class BlackJackController {
         }
     }
 
-    private void checkCardScore(Player player) {
+    private void checkCardScore(User player) {
         if (!player.isOverTwentyOne()) {
             OutputView.askGetMoreCard(player);
             wantCard(player);
         }
     }
 
-    private void wantCard(Player player) {
-        if(ValidateUtils.isValidChoice(InputView.inputValue())){
+    private void wantCard(User player) {
+        if (ValidateUtils.isValidChoice(InputView.inputValue())) {
             player.addCard(giveCard());
             player.showCards();
             dealWithPlayer(player);
@@ -77,7 +79,7 @@ public class BlackJackController {
     }
 
     private void supplyDealerCard() {
-        if (dealer.calculateScore() < 17) {
+        if (dealer.getScore() < 17) {
             OutputView.addDealerCard();
             dealer.addCard(giveCard());
         }
@@ -85,53 +87,20 @@ public class BlackJackController {
 
     private void showCards() {
         dealer.showCards();
-        players.forEach(Player::showCards);
+        players.forEach(User::showCards);
     }
 
     private void showCardsWithScore() {
         dealer.showCardsWithScore();
-        players.forEach(Player::showCardsWithScore);
-    }
-
-    private void showFinalProfit() {
-        double dealerProfit = 0;
-        int max = findMaxScore();
-
-        OutputView.showResult();
-        if (dealer.isOverTwentyOne()) {
-            dealerProfit = players.stream().mapToDouble(Player::getBettingMoney).sum();
-            System.out.println("딜러: -" + dealerProfit);
-            players.forEach(OutputView::showProfit);
-            return;
-        }
-        if (blackJackWhileHandOuting() && dealer.isBlackJack()) {
-            System.out.println("딜러: " + dealerProfit);
-            players.forEach(OutputView::showProfit);
-            return;
-        }
-        if (blackJackWhileHandOuting() && !dealer.isBlackJack()) { // 첫 드롭에서 플레이어 블랙잭
-
-            return;
-        }
-        if (dealer.isOn(max)) { // 딜러가 이김
-
-        }
-    }
-
-    private int findMaxScore() {
-        List<Integer> scores = new ArrayList<>();
-        scores.add(dealer.calculateScore());
-        players.forEach(player -> scores.add(player.calculateScore()));
-        return Collections.max(scores);
+        players.forEach(User::showCardsWithScore);
     }
 
     private Card giveCard() {
         if (!cards.isEmpty()) {
-            Collections.shuffle(cards);
             Card card = cards.stream()
                 .findFirst()
                 .orElseThrow(() -> new BlackJackException("더 뽑을 카드가 없습니다."));
-            cards.remove(1);
+            cards.remove(0);
             return card;
         }
         throw new BlackJackException("더 뽑을 카드가 없습니다.");

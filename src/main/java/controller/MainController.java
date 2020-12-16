@@ -1,6 +1,7 @@
 package controller;
 
 import domain.user.Player;
+import domain.user.User;
 import exception.BlackJackException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,7 +12,7 @@ import view.OutputView;
 
 public class MainController {
 
-    private final List<Player> players;
+    private final List<User> players;
 
     public MainController() {
         players = new ArrayList<>();

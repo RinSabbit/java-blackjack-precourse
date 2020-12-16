@@ -9,8 +9,6 @@ import java.util.List;
  */
 public class Dealer extends User {
 
-    private final List<Card> cards = new ArrayList<>();
-
     public Dealer() {
     }
 

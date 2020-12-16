@@ -11,15 +11,10 @@ public class Player extends User {
 
     private final String name;
     private final double bettingMoney;
-    private final List<Card> cards = new ArrayList<>();
 
     public Player(String name, double bettingMoney) {
         this.name = name;
         this.bettingMoney = bettingMoney;
-    }
-
-    public String getName() {
-        return name;
     }
 
     @Override
@@ -28,18 +23,18 @@ public class Player extends User {
         super.showCards();
     }
 
-    public double getBettingMoney() {
-        return bettingMoney;
-    }
-
-    @Override
-    public boolean isBlackJack() {
-        return super.isBlackJack();
-    }
-
     @Override
     public void showCardsWithScore() {
         System.out.print(name + "카드 :");
         super.showCardsWithScore();
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public double getBettingMoney() {
+        return bettingMoney;
+    }
+
 }

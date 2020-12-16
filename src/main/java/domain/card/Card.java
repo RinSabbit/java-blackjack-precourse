@@ -49,4 +49,8 @@ public class Card {
         return symbol.getLetter() + type.getType();
     }
 
+    public boolean isAce(){
+        return symbol.getLetter().equals("A");
+    }
+
 }

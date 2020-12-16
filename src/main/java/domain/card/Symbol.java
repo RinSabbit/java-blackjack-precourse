@@ -15,8 +15,8 @@ public enum Symbol {
     QUEEN(10,"Q"),
     KING(10,"K");
 
-    private int score;
-    private String letter;
+    private final int score;
+    private final String letter;
 
     Symbol(int score, String letter) {
         this.score = score;
