@@ -29,13 +29,11 @@ public class BlackJackController {
 
     public void startGame() {
         handOutCard();
-        if (!blackJackWhileHandOuting()) {
-            deal();
-            supplyDealerCard();
-        }
+        deal();
+        supplyDealerCard();
         showCardsWithScore();
         ProfitCalculator profitCalculator = new ProfitCalculator(dealer, players);
-        profitCalculator.showProfit(blackJackWhileHandOuting());
+        profitCalculator.showProfit();
     }
 
     private void handOutCard() {
@@ -44,10 +42,6 @@ public class BlackJackController {
         players.forEach(player -> player.addCard(giveCard()));
         players.forEach(player -> player.addCard(giveCard()));
         showCards();
-    }
-
-    private boolean blackJackWhileHandOuting() {
-        return players.stream().anyMatch(User::isBlackJack);
     }
 
     private void deal() {
@@ -64,7 +58,7 @@ public class BlackJackController {
     }
 
     private void checkCardScore(User player) {
-        if (!player.isOverTwentyOne()) {
+        if (!player.isOverTwentyOne() && !player.isBlackJack()) {
             OutputView.askGetMoreCard(player);
             wantCard(player);
         }

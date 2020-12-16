@@ -37,14 +37,14 @@ public class User {
 
     private int addIfAceExist(int total) {
         int aceCount = countAce();
-        while(total + GAP_BETWEEN_ACE_VALUE <= BLACKJACK_SCORE && aceCount == 0){
+        while (total + GAP_BETWEEN_ACE_VALUE <= BLACKJACK_SCORE && aceCount == 0) {
             total += GAP_BETWEEN_ACE_VALUE;
             aceCount--;
         }
         return total;
     }
 
-    private int countAce(){
+    private int countAce() {
         return Math.toIntExact(cards.stream().filter(Card::isAce).count());
     }
 
@@ -53,11 +53,15 @@ public class User {
     }
 
     public boolean isOverTwentyOne() {
-        return getScore() >= BLACKJACK_SCORE;
+        return getScore() > BLACKJACK_SCORE;
     }
 
-    public boolean isOn(int max) {
-        return getScore() == max;
+    public String getName() {
+        return "딜러";
+    }
+
+    public int getCardAmount() {
+        return cards.size();
     }
 
 }

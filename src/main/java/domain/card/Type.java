@@ -8,11 +8,11 @@ public enum Type {
 
     private final String type;
 
-    Type(String type){
+    Type(String type) {
         this.type = type;
     }
 
-    public String getType(){
+    public String getType() {
         return type;
     }
 }

@@ -45,11 +45,11 @@ public class Card {
         return symbol.getScore();
     }
 
-    public String getCard(){
+    public String getCard() {
         return symbol.getLetter() + type.getType();
     }
 
-    public boolean isAce(){
+    public boolean isAce() {
         return symbol.getLetter().equals("A");
     }
 
